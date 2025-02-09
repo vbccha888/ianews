@@ -1,4 +1,5 @@
 const User = require('../models/User');
+const generateToken = require('../utils/generateToken');
 
 // Obter perfil do usuário
 const getUserProfile = async (req, res) => {
@@ -12,28 +13,39 @@ const getUserProfile = async (req, res) => {
 
 // Atualizar perfil do usuário
 const updateUserProfile = async (req, res) => {
-  const user = await User.findById(req.user._id);
-
-  if (user) {
-    user.name = req.body.name || user.name;
-    user.email = req.body.email || user.email;
-    if (req.body.password) {
-      user.password = req.body.password;
+    try {
+      const user = await User.findById(req.user._id);
+  
+      if (!user) {
+        return res.status(404).json({ message: 'Usuário não encontrado' });
+      }
+  
+      // Atualizar campos
+      user.name = req.body.name || user.name;
+      user.email = req.body.email || user.email;
+  
+      // Atualizar senha (se fornecida)
+      if (req.body.password) {
+        user.password = req.body.password; // O hook pre('save') vai hashear automaticamente
+      }
+  
+      const updatedUser = await user.save(); // Salva as alterações
+  
+      res.json({
+        _id: updatedUser._id,
+        name: updatedUser.name,
+        email: updatedUser.email,
+        isEditor: updatedUser.isEditor,
+        token: generateToken(updatedUser._id),
+      });
+  
+    } catch (error) {
+      res.status(400).json({ message: 'Erro ao atualizar perfil', error: error.message });
     }
-
-    const updatedUser = await user.save();
-    res.json({
-      _id: updatedUser._id,
-      name: updatedUser.name,
-      email: updatedUser.email,
-      isEditor: updatedUser.isEditor,
-      token: generateToken(updatedUser._id),
-    });
-  } else {
-    res.status(404).json({ message: 'Usuário não encontrado' });
-  }
-};
-
+  };
+  
+  
+  
 // Listar todos os usuários (apenas para administradores)
 const getUsers = async (req, res) => {
   const users = await User.find({}).select('-password');

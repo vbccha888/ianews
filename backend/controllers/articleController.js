@@ -40,14 +40,25 @@ const updateArticle = async (req, res) => {
 };
 
 // Deletar Artigo
+// Método DELETE (Deletar Artigo)
 const deleteArticle = async (req, res) => {
-  const article = await Article.findById(req.params.id);
-  if (article) {
-    await article.remove();
-    res.json({ message: 'Artigo removido' });
-  } else {
-    res.status(404).json({ message: 'Artigo não encontrado' });
-  }
-};
+    try {
+      const article = await Article.findById(req.params.id);
+      
+      if (!article) {
+        return res.status(404).json({ message: 'Artigo não encontrado' });
+      }
+  
+      // Substitua remove() por deleteOne()
+      await article.deleteOne();
+      
+      res.json({ message: 'Artigo removido com sucesso' });
+    } catch (error) {
+      res.status(500).json({ 
+        message: 'Erro ao remover artigo',
+        error: error.message
+      });
+    }
+  };
 
 module.exports = { createArticle, getArticles, updateArticle, deleteArticle };

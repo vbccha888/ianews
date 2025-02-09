@@ -21,25 +21,32 @@ const loginUser = async (req, res) => {
 
 // Registrar
 const registerUser = async (req, res) => {
-  const { name, email, password } = req.body;
-  const userExists = await User.findOne({ email });
-
-  if (userExists) {
-    return res.status(400).json({ message: 'Usuário já existe' });
-  }
-
-  const user = await User.create({ name, email, password });
-  if (user) {
+    const { name, email, password, editorCode } = req.body;
+  
+    // Verifica se o código de editor é válido (comparação segura)
+    const isEditor = (editorCode === process.env.EDITOR_SECRET_CODE);
+  
+    const userExists = await User.findOne({ email });
+  
+    if (userExists) {
+      return res.status(400).json({ message: 'Usuário já existe' });
+    }
+  
+    // Cria o usuário com a flag isEditor
+    const user = await User.create({
+      name,
+      email,
+      password,
+      isEditor: isEditor // Define explicitamente o campo
+    });
+  
     res.status(201).json({
       _id: user._id,
       name: user.name,
       email: user.email,
-      isEditor: user.isEditor,
+      isEditor: user.isEditor, // Retorna o valor real do banco
       token: generateToken(user._id),
     });
-  } else {
-    res.status(400).json({ message: 'Dados inválidos' });
-  }
-};
+  };
 
 module.exports = { loginUser, registerUser };

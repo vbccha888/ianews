@@ -18,11 +18,11 @@ const protect = async (req, res, next) => {
 };
 
 const isEditor = (req, res, next) => {
-  if (req.user && req.user.isEditor) {
-    next();
-  } else {
-    res.status(403).json({ message: 'Acesso negado' });
-  }
-};
+    if (req.user && req.user.isEditor) { // Verifica se o usuário é editor
+      next();
+    } else {
+      res.status(403).json({ message: "Acesso negado: você não é um editor" });
+    }
+  };
 
 module.exports = { protect, isEditor };
