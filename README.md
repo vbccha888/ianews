@@ -17,6 +17,8 @@ Este é o backend do site de notícias IAnews, desenvolvido com Node.js, Express
 1. Clone o repositório.
 2. Instale as dependências: `npm install`.
 3. Configure o arquivo `.env` com as variáveis de ambiente:
+  cd ianews/backend
+  npm run dev
 
 
 
