@@ -61,4 +61,19 @@ const deleteArticle = async (req, res) => {
     }
   };
 
-module.exports = { createArticle, getArticles, updateArticle, deleteArticle };
+  // ✅ Buscar artigo por ID
+const getArticleById = async (req, res) => {
+  try {
+    const article = await Article.findById(req.params.id).populate('author', 'name');
+    if (article) {
+      res.json(article);
+    } else {
+      res.status(404).json({ message: 'Artigo não encontrado' });
+    }
+  } catch (error) {
+    res.status(500).json({ message: 'Erro ao buscar artigo', error: error.message });
+  }
+};
+
+
+module.exports = { createArticle, getArticles, getArticleById, updateArticle, deleteArticle };

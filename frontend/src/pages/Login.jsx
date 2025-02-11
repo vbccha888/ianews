@@ -15,8 +15,15 @@ const Login = () => {
       localStorage.setItem("isEditor", response.data.isEditor);
       navigate("/dashboard");
     } catch (error) {
-      console.error("Erro ao fazer login:", error);
+      if (error.response) {
+        console.error("Erro ao fazer login:", error.response.data);
+        alert(error.response.data.message); // Exibe a mensagem real do backend
+      } else {
+        console.error("Erro desconhecido:", error);
+      }
     }
+    console.log("Tentando login com:", { email, password });//retirar depois
+
   };
 
   return (

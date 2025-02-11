@@ -18,12 +18,24 @@ const ArticleDetail = () => {
     <div className="container my-4">
       <h1>{article.title}</h1>
       <p>{article.content}</p>
-      {article.images.map((image, index) => (
-        <img key={index} src={image} alt={`Imagem ${index + 1}`} className="img-fluid mb-3" />
-      ))}
+      {article.images
+  .filter(image => image) // Filtra URLs vazias ou nulas
+  .map((image, index) => (
+    <img key={index} src={image} alt={`Imagem ${index + 1}`} className="img-fluid mb-3" />
+))}
+
       {article.videos.map((video, index) => (
-        <iframe key={index} src={video} title={`Vídeo ${index + 1}`} className="mb-3" width="100%" height="315" />
+        <iframe
+          key={index}
+          src={video}
+          title={`Vídeo ${index + 1}`}
+          className="mb-3"
+          width="100%"
+          height="315"
+          allowFullScreen
+        />
       ))}
+      <button onClick={() => window.history.back()} className="btn btn-secondary">Voltar</button>
     </div>
   );
 };
