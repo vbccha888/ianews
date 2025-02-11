@@ -1,22 +1,50 @@
 body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #f8f9fa;
-  }
-  
-  .container {
-    padding-top: 20px;
-    padding-bottom: 100px; /* Para evitar sobreposição com o footer */
-  }
-  
-  .navbar {
-    margin-bottom: 20px;
-  }
-  
-  .footer {
-    text-align: center;
-    padding: 10px 0;
-    background-color: #343a40;
-    color: white;
-  }
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f8f9fa;
+}
+
+.container {
+  padding-bottom: 100px; /* Para evitar sobreposição com o footer */
+}
+
+.navbar {
+  background-color: #007bff;
+  width: auto; /* Ajusta a largura conforme o conteúdo */
+  max-width: 100%; /* Define um limite máximo */
+  min-width: 100px; /* Evita que fique muito pequena */
+  margin: 0 auto; /* Centraliza no meio da tela */
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+.footer {
+ background-color: #007bff;
+  color: white;
+  padding: 20px 0;
+  text-align: center;
+}
+
+.navbar-brand, .nav-link {
+  color: white !important;
+}
+.carousel-item {
+  width: 100%;
+  height: 200px;
+  color: white;
+  text-align: center;
+  padding: 50px 10px;
+}
+.carousel-item h3 {
+  font-size: 2.5rem;
+}
+.carousel-item p {
+  font-size: 1.2rem;
+}
+.news-section {
+  padding: 50px 0;
+}
+.news-card {
+  margin-bottom: 20px;
+}

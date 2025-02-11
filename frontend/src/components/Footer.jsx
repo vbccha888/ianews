@@ -5,7 +5,7 @@ const Footer = () => {
   return (
     <Navbar bg="dark" variant="dark" fixed="bottom">
       <Container>
-        <Navbar.Text>© 2023 IAnews. Todos os direitos reservados.</Navbar.Text>
+        <Navbar.Text>© 2025 IAnews. Todos os direitos reservados. Hackaton Grupo 1</Navbar.Text>
       </Container>
     </Navbar>
   );
