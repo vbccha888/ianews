@@ -123,6 +123,7 @@ const ArticleForm = () => {
           />
         </div>
         <button type="submit" className="btn btn-primary">Salvar</button>
+        <button onClick={() => window.history.back()} className="btn btn-secondary">Voltar</button>
       </form>
     </div>
   );
