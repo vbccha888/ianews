@@ -3,7 +3,7 @@ import { Container, Navbar } from "react-bootstrap";
 
 const Footer = () => {
   return (
-    <Navbar bg="dark" variant="dark" fixed="bottom">
+    <Navbar bg="dark" variant="dark" fixed="relative">
       <Container>
         <Navbar.Text>© 2023 IAnews. Todos os direitos reservados.</Navbar.Text>
       </Container>

@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 
 const ArticleCard = ({ article }) => {
   return (
-    <Card style={{ height: "400px", display: "flex", flexDirection: "column", textAlign: "justify" }}>
+    <Card style={{ height: "500px", display: "flex", flexDirection: "column", textAlign: "justify" }}>
       {/* Exibe a primeira imagem, se existir */}
       {article.images && article.images.length > 0 ? (
         <Card.Img
