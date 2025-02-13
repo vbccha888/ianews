@@ -78,6 +78,7 @@ const ArticleForm = () => {
             value={content}
             onChange={(e) => setContent(e.target.value)}
             required
+            style={{height:("200px")}}
           />
         </div>
         <div className="mb-3">
