@@ -16,13 +16,15 @@ const Register = () => {
         name,
         email,
         password,
-        editorCode,
+        editorCode, // O backend verificará se é válido para tornar o usuário editor
       });
+
       localStorage.setItem("token", response.data.token);
       localStorage.setItem("isEditor", response.data.isEditor);
       navigate("/dashboard");
     } catch (error) {
       console.error("Erro ao registrar:", error);
+      alert("Erro ao registrar. Verifique os dados e tente novamente.");
     }
   };
 
@@ -64,7 +66,7 @@ const Register = () => {
           />
         </div>
         <div className="mb-3">
-          <label htmlFor="editorCode" className="form-label">Código de Editor (opcional)</label>
+          <label htmlFor="editorCode" className="form-label">Código de Editor (Opcional)</label>
           <input
             type="text"
             className="form-control"
@@ -80,3 +82,4 @@ const Register = () => {
 };
 
 export default Register;
+

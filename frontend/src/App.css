@@ -48,3 +48,19 @@ body {
 .news-card {
   margin-bottom: 20px;
 }
+
+/* Garante que o login ocupa 100% da altura */
+.login-container {
+  min-height: 100vh; /* Faz a div ocupar toda a tela */
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* Centraliza o conteúdo */
+  align-items: center;
+  background-color: #f8f9fa;
+}
+
+/* Move o rodapé para baixo */
+.mt-auto {
+  margin-top: auto;
+  padding-top: 20px;
+}
