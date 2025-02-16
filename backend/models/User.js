@@ -1,17 +1,15 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 
-const mongoose = require("mongoose");
-
-const UserSchema = new mongoose.Schema({
+const userSchema = mongoose.Schema(
+  {
     name: { type: String, required: true },
-    email: { type: String, unique: true, required: true },
+    email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
-    isEditor: { type: Boolean, default: false }, 
-});
-
-module.exports = mongoose.model("User", UserSchema);
-
+    isEditor: { type: Boolean, default: false },
+  },
+  { timestamps: true }
+);
 
 // Comparar senha fornecida com a senha hasheada
 userSchema.methods.matchPassword = async function (enteredPassword) {

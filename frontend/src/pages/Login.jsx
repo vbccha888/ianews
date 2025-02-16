@@ -1,19 +1,11 @@
-import React, { useState, useEffect } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-
-  // 🔹 Verifica autenticação ao carregar a página
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    console.log("Token encontrado:", token); // 🔴 Debug para ver se há um token salvo
-    setIsLoggedIn(token !== null); // Converte para booleano corretamente
-  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -23,9 +15,15 @@ const Login = () => {
       localStorage.setItem("isEditor", response.data.isEditor);
       navigate("/dashboard");
     } catch (error) {
-      console.error("Erro ao fazer login:", error);
-      alert("Erro ao fazer login. Verifique suas credenciais.");
+      if (error.response) {
+        console.error("Erro ao fazer login:", error.response.data);
+        alert(error.response.data.message); // Exibe a mensagem real do backend
+      } else {
+        console.error("Erro desconhecido:", error);
+      }
     }
+    console.log("Tentando login com:", { email, password });//retirar depois
+
   };
 
   return (
@@ -54,23 +52,10 @@ const Login = () => {
             required
           />
         </div>
-        <button type="submit" className="btn btn-primary w-100">Entrar</button>
-
-        {/* 🔹 O botão "Criar Conta" agora sempre será renderizado corretamente */}
-        {!isLoggedIn && (
-          <div className="text-center mt-3">
-            <p>Não tem uma conta?</p>
-            <Link to="/register" class position-absolute top-0 end-0 text-primary fw-bold className="btn btn-success w-100" id="register-btn">Criar Conta</Link>
-          </div>
-        )}
+        <button type="submit" className="btn btn-primary">Entrar</button>
       </form>
     </div>
   );
 };
 
 export default Login;
-
-
-
-
-
