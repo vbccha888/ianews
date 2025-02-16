@@ -3,9 +3,9 @@ import { Container, Navbar } from "react-bootstrap";
 
 const Footer = () => {
   return (
-    <Navbar bg="dark" variant="dark" fixed="bottom">
+    <Navbar bg="dark" variant="dark" fixed="relative">
       <Container>
-        <Navbar.Text>© 2023 IAnews. Todos os direitos reservados.</Navbar.Text>
+        <Navbar.Text>© 2025 Technews. Todos os direitos reservados. FIAP HACKATON Grupo 1</Navbar.Text>
       </Container>
     </Navbar>
   );

@@ -6,7 +6,7 @@ body {
 }
 
 .container {
-  padding-bottom: 100px; /* Para evitar sobreposição com o footer */
+  padding-bottom: 10px; /* Para evitar sobreposição com o footer */
 }
 
 .navbar {
@@ -22,7 +22,7 @@ body {
 .footer {
  background-color: #007bff;
   color: white;
-  padding: 20px 0;
+  padding: 10px 0;
   text-align: center;
 }
 
