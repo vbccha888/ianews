@@ -26,6 +26,7 @@ const Profile = () => {
       <h1>Meu Perfil</h1>
       <p><strong>Nome:</strong> {user.name}</p>
       <p><strong>Email:</strong> {user.email}</p>
+      <p><strong>Status:</strong> {user.isEditor ? "Editor" : "Usuário Comum"}</p> {/* ✅ Agora mostra o status */}
     </div>
   );
 };

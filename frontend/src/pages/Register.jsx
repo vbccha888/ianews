@@ -13,20 +13,26 @@ const Register = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError(""); // Reseta erro antes da nova tentativa
-
+  
+    const userData = {
+      name,
+      email,
+      password,
+    };
+  
+    // Só adiciona `editorCode` se o usuário inseriu algo
+    if (editorCode.trim() !== "") {
+      userData.editorCode = editorCode;
+    }
+  
     try {
-      const response = await axios.post(`${process.env.REACT_APP_API_URL}/auth/register`, {
-        name,
-        email,
-        password,
-        editorCode,
-      });
-
+      const response = await axios.post(`${process.env.REACT_APP_API_URL}/auth/register`, userData);
+  
       localStorage.setItem("token", response.data.token);
       localStorage.setItem("isEditor", response.data.isEditor);
-      
-      navigate("/dashboard");
-
+  
+      navigate("/profile"); // ✅ Agora redireciona para o perfil
+  
     } catch (error) {
       if (error.response && error.response.data.message) {
         setError(error.response.data.message);
@@ -35,6 +41,7 @@ const Register = () => {
       }
     }
   };
+  
 
   return (
     <div className="container my-4">
@@ -91,3 +98,4 @@ const Register = () => {
 };
 
 export default Register;
+

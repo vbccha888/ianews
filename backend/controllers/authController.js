@@ -30,8 +30,8 @@ const registerUser = async (req, res) => {
       return res.status(400).json({ message: "Usuário já existe" });
     }
 
-    // Verifica se o código de editor é válido (se não for passado, isEditor será false)
-    const isEditor = editorCode && editorCode === process.env.EDITOR_SECRET_CODE;
+    // Garante que `isEditor` sempre tenha um valor booleano correto
+    const isEditor = editorCode ? editorCode === process.env.EDITOR_SECRET_CODE : false;
 
     // Cria o usuário
     const user = await User.create({
@@ -53,7 +53,6 @@ const registerUser = async (req, res) => {
     res.status(500).json({ message: "Erro ao registrar usuário", error: error.message });
   }
 };
-
 
   const getUserProfile = async (req, res) => {
     try {
