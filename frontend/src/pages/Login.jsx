@@ -1,29 +1,30 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { isAuthenticated, login } from "../services/auth";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
+  useEffect(() => {
+    if (isAuthenticated()) {
+      navigate("/profile");
+    }
+  }, [navigate]);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       const response = await axios.post(`${process.env.REACT_APP_API_URL}/auth/login`, { email, password });
-      localStorage.setItem("token", response.data.token);
-      localStorage.setItem("isEditor", response.data.isEditor);
-      navigate("/dashboard");
-    } catch (error) {
-      if (error.response) {
-        console.error("Erro ao fazer login:", error.response.data);
-        alert(error.response.data.message); // Exibe a mensagem real do backend
-      } else {
-        console.error("Erro desconhecido:", error);
-      }
-    }
-    console.log("Tentando login com:", { email, password });//retirar depois
 
+      login(response.data.token, response.data.isEditor); // ✅ Agora chamamos login() corretamente
+
+      navigate("/profile");
+    } catch (error) {
+      console.error("Erro ao fazer login:", error);
+    }
   };
 
   return (
@@ -32,25 +33,11 @@ const Login = () => {
       <form onSubmit={handleSubmit}>
         <div className="mb-3">
           <label htmlFor="email" className="form-label">Email</label>
-          <input
-            type="email"
-            className="form-control"
-            id="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
+          <input type="email" className="form-control" id="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
         </div>
         <div className="mb-3">
           <label htmlFor="password" className="form-label">Senha</label>
-          <input
-            type="password"
-            className="form-control"
-            id="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
+          <input type="password" className="form-control" id="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
         </div>
         <button type="submit" className="btn btn-primary">Entrar</button>
       </form>
@@ -59,3 +46,4 @@ const Login = () => {
 };
 
 export default Login;
+

@@ -10,6 +10,8 @@ import ArticleForm from "./components/ArticleForm";
 import Footer from "./components/Footer";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
+import Profile from "./pages/Profile";
+
 
 const App = () => {
   return (
@@ -23,6 +25,7 @@ const App = () => {
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/dashboard/new" element={<ArticleForm />} />
         <Route path="/dashboard/edit/:id" element={<ArticleForm />} />
+        <Route path="/profile" element={<Profile />} />
       </Routes>
       <Footer />
     </Router>

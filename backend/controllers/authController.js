@@ -49,4 +49,16 @@ const registerUser = async (req, res) => {
     });
   };
 
-module.exports = { loginUser, registerUser };
+  const getUserProfile = async (req, res) => {
+    try {
+      const user = await User.findById(req.user._id).select("-password");
+      if (!user) {
+        return res.status(404).json({ message: "Usuário não encontrado" });
+      }
+      res.json(user);
+    } catch (error) {
+      res.status(500).json({ message: "Erro ao buscar perfil", error: error.message });
+    }
+  };
+  
+    module.exports = { loginUser, registerUser, getUserProfile };

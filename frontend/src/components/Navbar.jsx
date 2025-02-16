@@ -1,9 +1,28 @@
-import React from "react";
-import { Navbar, Nav, Container } from "react-bootstrap";
+import React, { useState, useEffect } from "react";
+import { Navbar, Nav, Container, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import { isAuthenticated, isEditor, logout } from "../services/auth";
 
 const NavbarComponent = () => {
-  const isEditor = localStorage.getItem("isEditor") === "true";
+  const [userLoggedIn, setUserLoggedIn] = useState(isAuthenticated());
+  const [editorStatus, setEditorStatus] = useState(isEditor());
+
+  useEffect(() => {
+    const updateAuthStatus = () => {
+      setUserLoggedIn(isAuthenticated());
+      setEditorStatus(isEditor()); // ✅ Agora garantimos que `isEditor` será atualizado
+    };
+
+    window.addEventListener("authChange", updateAuthStatus);
+
+    return () => {
+      window.removeEventListener("authChange", updateAuthStatus);
+    };
+  }, []);
+
+  const handleLogout = () => {
+    logout();
+  };
 
   return (
     <Navbar bg="dark" variant="dark" expand="lg">
@@ -13,10 +32,17 @@ const NavbarComponent = () => {
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
             <Nav.Link as={Link} to="/">Home</Nav.Link>
-            {isEditor && <Nav.Link as={Link} to="/dashboard">Dashboard</Nav.Link>}
+            {editorStatus && <Nav.Link as={Link} to="/dashboard">Dashboard</Nav.Link>}
           </Nav>
           <Nav>
-            <Nav.Link as={Link} to="/login">Login</Nav.Link>
+            {userLoggedIn ? (
+              <>
+                <Nav.Link as={Link} to="/profile">Meu Perfil</Nav.Link>
+                <Button variant="outline-light" onClick={handleLogout}>Sair</Button>
+              </>
+            ) : (
+              <Nav.Link as={Link} to="/login">Login</Nav.Link>
+            )}
           </Nav>
         </Navbar.Collapse>
       </Container>
@@ -25,3 +51,8 @@ const NavbarComponent = () => {
 };
 
 export default NavbarComponent;
+
+
+
+
+
