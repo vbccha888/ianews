@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom"; // ✅ Importamos Link
 import axios from "axios";
 import { isAuthenticated, login } from "../services/auth";
 
@@ -19,7 +19,7 @@ const Login = () => {
     try {
       const response = await axios.post(`${process.env.REACT_APP_API_URL}/auth/login`, { email, password });
 
-      login(response.data.token, response.data.isEditor); // ✅ Agora chamamos login() corretamente
+      login(response.data.token, response.data.isEditor);
 
       navigate("/profile");
     } catch (error) {
@@ -41,6 +41,10 @@ const Login = () => {
         </div>
         <button type="submit" className="btn btn-primary">Entrar</button>
       </form>
+
+      <p className="mt-3">
+        Ainda não tem uma conta? <Link to="/register">Crie uma aqui</Link> {/* ✅ Novo link */}
+      </p>
     </div>
   );
 };

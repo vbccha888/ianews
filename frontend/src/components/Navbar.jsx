@@ -10,7 +10,7 @@ const NavbarComponent = () => {
   useEffect(() => {
     const updateAuthStatus = () => {
       setUserLoggedIn(isAuthenticated());
-      setEditorStatus(isEditor()); // ✅ Agora garantimos que `isEditor` será atualizado
+      setEditorStatus(isEditor());
     };
 
     window.addEventListener("authChange", updateAuthStatus);
@@ -41,7 +41,10 @@ const NavbarComponent = () => {
                 <Button variant="outline-light" onClick={handleLogout}>Sair</Button>
               </>
             ) : (
-              <Nav.Link as={Link} to="/login">Login</Nav.Link>
+              <>
+                <Nav.Link as={Link} to="/login">Login</Nav.Link>
+                <Nav.Link as={Link} to="/register">Criar Conta</Nav.Link> {/* ✅ Novo link */}
+              </>
             )}
           </Nav>
         </Navbar.Collapse>
@@ -51,6 +54,7 @@ const NavbarComponent = () => {
 };
 
 export default NavbarComponent;
+
 
 
 

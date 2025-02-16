@@ -7,10 +7,13 @@ const Register = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [editorCode, setEditorCode] = useState("");
+  const [error, setError] = useState(""); // Novo estado para erros
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setError(""); // Reseta erro antes da nova tentativa
+
     try {
       const response = await axios.post(`${process.env.REACT_APP_API_URL}/auth/register`, {
         name,
@@ -18,17 +21,25 @@ const Register = () => {
         password,
         editorCode,
       });
+
       localStorage.setItem("token", response.data.token);
       localStorage.setItem("isEditor", response.data.isEditor);
+      
       navigate("/dashboard");
+
     } catch (error) {
-      console.error("Erro ao registrar:", error);
+      if (error.response && error.response.data.message) {
+        setError(error.response.data.message);
+      } else {
+        setError("Erro ao registrar usuário. Tente novamente.");
+      }
     }
   };
 
   return (
     <div className="container my-4">
       <h1>Registro</h1>
+      {error && <div className="alert alert-danger">{error}</div>} {/* Exibe erro */}
       <form onSubmit={handleSubmit}>
         <div className="mb-3">
           <label htmlFor="name" className="form-label">Nome</label>

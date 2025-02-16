@@ -21,33 +21,39 @@ const loginUser = async (req, res) => {
 
 // Registrar
 const registerUser = async (req, res) => {
-    const { name, email, password, editorCode } = req.body;
-  
-    // Verifica se o código de editor é válido (comparação segura)
-    const isEditor = (editorCode === process.env.EDITOR_SECRET_CODE);
-  
+  const { name, email, password, editorCode } = req.body;
+
+  try {
     const userExists = await User.findOne({ email });
-  
+
     if (userExists) {
-      return res.status(400).json({ message: 'Usuário já existe' });
+      return res.status(400).json({ message: "Usuário já existe" });
     }
-  
-    // Cria o usuário com a flag isEditor
+
+    // Verifica se o código de editor é válido (se não for passado, isEditor será false)
+    const isEditor = editorCode && editorCode === process.env.EDITOR_SECRET_CODE;
+
+    // Cria o usuário
     const user = await User.create({
       name,
       email,
       password,
-      isEditor: isEditor // Define explicitamente o campo
+      isEditor,
     });
-  
+
     res.status(201).json({
       _id: user._id,
       name: user.name,
       email: user.email,
-      isEditor: user.isEditor, // Retorna o valor real do banco
+      isEditor: user.isEditor,
       token: generateToken(user._id),
     });
-  };
+
+  } catch (error) {
+    res.status(500).json({ message: "Erro ao registrar usuário", error: error.message });
+  }
+};
+
 
   const getUserProfile = async (req, res) => {
     try {
