@@ -81,5 +81,46 @@ const getArticleById = async (req, res) => {
   }
 };
 
+// ✅ Obter todas as categorias únicas salvas no banco de dados
+const getCategories = async (req, res) => {
+  try {
+    console.log("🔍 Iniciando busca de categorias...");
 
-module.exports = { createArticle, getArticles, getArticleById, updateArticle, deleteArticle };
+    // Busca apenas a categoria de todos os artigos, garantindo que _id não interfira
+    const articles = await Article.find({}, { category: 1, _id: 0 }).lean(); 
+
+    console.log("📊 Artigos encontrados no banco de dados:", articles);
+
+    if (!articles || articles.length === 0) {
+      return res.status(404).json({ message: "Nenhuma categoria encontrada" });
+    }
+
+    // Captura apenas categorias válidas
+    const allCategories = articles
+      .map(article => article.category) // Pega apenas o campo "category"
+      .filter(category => typeof category === "string" && category.trim() !== ""); // Remove valores inválidos
+
+    console.log("✅ Categorias filtradas:", allCategories);
+
+    const uniqueCategories = [...new Set(allCategories)]; // Remove duplicatas
+
+    console.log("🏆 Categorias únicas:", uniqueCategories);
+
+    res.json(uniqueCategories);
+  } catch (error) {
+    console.error("❌ Erro ao buscar categorias:", error);
+    res.status(500).json({ message: "Erro ao buscar categorias", error: error.message });
+  }
+};
+
+
+
+
+
+
+
+
+
+module.exports = { createArticle, getArticles, getArticleById, updateArticle, deleteArticle, getCategories };
+
+

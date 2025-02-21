@@ -28,22 +28,25 @@ const ArticleCard = ({ article }) => {
         />
       )}
 
-      <Card.Body style={{ flexGrow: 1, display: "flex", flexDirection: "column" }}>
-        <Card.Title style={{ fontSize: "1.5rem", fontWeight: "bold", color: "#333" }}>
-          {article.title}
-        </Card.Title>
-        <small className="text-muted">
-          Publicado em: {articleDate.toLocaleDateString("pt-BR", {
-            day: "2-digit", month: "long", year: "numeric"
-          })}
-        </small>
-        <Card.Text style={{ flexGrow: 1, marginTop: "10px" }}>
-          {article.content.substring(0, 200)}...
-        </Card.Text>
-        <Link to={`/article/${article._id}`} className="mt-auto">
-          <Button variant="primary">Ler Mais</Button>
-        </Link>
-      </Card.Body>
+<Card.Body>
+  <Card.Title>{article.title}</Card.Title>
+  <small className="text-muted">
+    Publicado em: {new Date(article.createdAt).toLocaleDateString("pt-BR")}
+  </small>
+  <Card.Text>{article.content.substring(0, 200)}...</Card.Text>
+  
+  {/* Exibir Tags da Notícia */}
+  <div className="mt-2">
+    {article.tags.map((tag, index) => (
+      <span key={index} className="badge bg-secondary me-1">{tag}</span>
+    ))}
+  </div>
+
+  <Link to={`/article/${article._id}`}>
+    <Button variant="primary" className="mt-2">Ler Mais</Button>
+  </Link>
+</Card.Body>
+
     </Card>
   );
 };
