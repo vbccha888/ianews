@@ -91,5 +91,29 @@ const registerUser = async (req, res) => {
     }
   };
   
+  const updateProfile = async (req, res) => {
+    const { name, email } = req.body;
   
-    module.exports = { loginUser, registerUser, getUserProfile, updatePassword };
+    try {
+      const user = await User.findById(req.user._id);
+  
+      if (!user) {
+        return res.status(404).json({ message: "Usuário não encontrado" });
+      }
+  
+      // Atualiza apenas os campos enviados pelo usuário
+      if (name) user.name = name;
+      if (email) user.email = email;
+  
+      await user.save();
+  
+      res.json({
+        message: "Perfil atualizado com sucesso!",
+        user: { name: user.name, email: user.email },
+      });
+    } catch (error) {
+      res.status(500).json({ message: "Erro ao atualizar perfil", error: error.message });
+    }
+  };
+    
+    module.exports = { loginUser, registerUser, getUserProfile, updatePassword, updateProfile };

@@ -5,6 +5,9 @@ import { useNavigate } from "react-router-dom";
 
 const Profile = () => {
   const [user, setUser] = useState(null);
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [editing, setEditing] = useState(false);
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [message, setMessage] = useState("");
@@ -21,9 +24,33 @@ const Profile = () => {
       .get(`${process.env.REACT_APP_API_URL}/auth/profile`, {
         headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
       })
-      .then((response) => setUser(response.data))
+      .then((response) => {
+        setUser(response.data);
+        setName(response.data.name);
+        setEmail(response.data.email);
+      })
       .catch((error) => console.error(error));
   }, [navigate]);
+
+  const handleProfileUpdate = async (e) => {
+    e.preventDefault();
+    setMessage("");
+    setError("");
+
+    try {
+      const response = await axios.put(
+        `${process.env.REACT_APP_API_URL}/auth/update-profile`,
+        { name, email },
+        { headers: { Authorization: `Bearer ${localStorage.getItem("token")}` } }
+      );
+
+      setMessage(response.data.message);
+      setUser({ ...user, name, email });
+      setEditing(false);
+    } catch (error) {
+      setError(error.response?.data?.message || "Erro ao atualizar perfil.");
+    }
+  };
 
   const handlePasswordChange = async (e) => {
     e.preventDefault();
@@ -43,7 +70,7 @@ const Profile = () => {
     } catch (error) {
       if (error.response) {
         if (error.response.status === 400) {
-          setError("⚠️ Senha atual incorreta. Tente novamente."); // ✅ Exibe erro corretamente
+          setError("⚠️ Senha atual incorreta. Tente novamente.");
         } else {
           setError(error.response.data.message || "Erro ao atualizar senha.");
         }
@@ -53,29 +80,55 @@ const Profile = () => {
     }
   };
 
-  if (!user) return <div className="text-center my-5">Carregando...</div>;
+  if (!user) return <div className="text-center my-5">Carregando perfil...</div>;
 
   return (
     <div className="container my-4">
       <h1>Meu Perfil</h1>
-      <p>
-        <strong>Nome:</strong> {user.name}
-      </p>
-      <p>
-        <strong>Email:</strong> {user.email}
-      </p>
-      <p>
-        <strong>Status:</strong> {user.isEditor ? "Editor" : "Usuário Comum"}
-      </p>
+
+      {message && <div className="alert alert-success text-center w-50">{message}</div>}
+      {error && <div className="alert alert-danger text-center w-50">{error}</div>}
+
+      {/* Exibe os dados do perfil normalmente */}
+      {!editing ? (
+        <div>
+          <p><strong>Nome:</strong> {user.name}</p>
+          <p><strong>Email:</strong> {user.email}</p>
+          <p><strong>Status:</strong> {user.isEditor ? "Editor" : "Usuário Comum"}</p>
+          <button className="btn btn-warning mt-2" onClick={() => setEditing(true)}>Editar Perfil</button>
+        </div>
+      ) : (
+        <form onSubmit={handleProfileUpdate} className="d-flex flex-column align-items-center mt-4">
+          <div className="mb-3" style={{ width: "40%" }}>
+            <label className="form-label fw-bold">Nome</label>
+            <input
+              type="text"
+              className="form-control p-2"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              required
+            />
+          </div>
+          <div className="mb-3" style={{ width: "40%" }}>
+            <label className="form-label fw-bold">Email</label>
+            <input
+              type="email"
+              className="form-control p-2"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+          </div>
+          <div className="d-flex gap-2">
+            <button type="submit" className="btn btn-primary mt-2 px-4 py-2">Salvar</button>
+            <button type="button" className="btn btn-secondary mt-2 px-4 py-2" onClick={() => setEditing(false)}>Cancelar</button>
+          </div>
+        </form>
+      )}
 
       <hr />
 
       <h2>Alterar Senha</h2>
-
-      {/* ✅ Mensagens de sucesso ou erro agora aparecem corretamente */}
-      {message && <div className="alert alert-success text-center w-50">{message}</div>}
-      {error && <div className="alert alert-danger text-center w-50">{error}</div>}
-
       <form onSubmit={handlePasswordChange} className="d-flex flex-column align-items-center mt-4">
         <div className="mb-3" style={{ width: "40%" }}>
           <label className="form-label fw-bold">Senha Atual</label>
