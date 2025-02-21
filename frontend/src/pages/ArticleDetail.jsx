@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
+import { Badge } from "react-bootstrap";
 
 const ArticleDetail = () => {
   const { id } = useParams();
@@ -14,17 +15,22 @@ const ArticleDetail = () => {
 
   if (!article) return <div className="text-center my-5">Carregando...</div>;
 
-  const formattedDate = new Date(article.createdAt).toLocaleDateString("pt-BR", {
-    day: "2-digit",
-    month: "long",
-    year: "numeric",
-  });
+  const articleDate = new Date(article.createdAt);
+  const today = new Date();
+  const diffDays = Math.floor((today - articleDate) / (1000 * 60 * 60 * 24));
 
   return (
     <div className="container my-4">
       <div className="text-center">
-        <h1 className="fw-bold">{article.title}</h1>
-        <p className="text-muted">Publicado em: {formattedDate}</p> {/* ✅ Adicionando a data aqui */}
+        <h1 className="fw-bold">
+          {article.title}{" "}
+          {diffDays <= 1 && <Badge bg="danger">Nova!</Badge>} {/* ✅ Exibe o selo se for nova */}
+        </h1>
+        <p className="text-muted">
+          Publicado em: {articleDate.toLocaleDateString("pt-BR", {
+            day: "2-digit", month: "long", year: "numeric"
+          })}
+        </p>
         <hr className="w-50 mx-auto my-4" />
       </div>
 
@@ -42,3 +48,4 @@ const ArticleDetail = () => {
 };
 
 export default ArticleDetail;
+

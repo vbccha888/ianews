@@ -1,16 +1,17 @@
 import React from "react";
 import { Card, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import "../App.css"; // ✅ Importamos o CSS
 
 const ArticleCard = ({ article }) => {
-  const formattedDate = new Date(article.createdAt).toLocaleDateString("pt-BR", {
-    day: "2-digit",
-    month: "long",
-    year: "numeric",
-  });
+  const articleDate = new Date(article.createdAt);
+  const today = new Date();
+  const diffDays = Math.floor((today - articleDate) / (1000 * 60 * 60 * 24));
 
   return (
-    <Card style={{ height: "500px", display: "flex", flexDirection: "column", textAlign: "justify" }}>
+    <Card style={{ height: "500px", display: "flex", flexDirection: "column", textAlign: "justify", position: "relative" }}>
+      {diffDays <= 1 && <div className="ribbon">Nova!</div>} {/* ✅ Adicionando o selo transversal */}
+      
       {article.images && article.images.length > 0 ? (
         <Card.Img
           variant="top"
@@ -26,9 +27,16 @@ const ArticleCard = ({ article }) => {
           style={{ height: "180px", objectFit: "cover" }}
         />
       )}
+
       <Card.Body style={{ flexGrow: 1, display: "flex", flexDirection: "column" }}>
-        <Card.Title style={{ fontSize: "1.5rem", fontWeight: "bold", color: "#333" }}>{article.title}</Card.Title>
-        <small className="text-muted">Publicado em: {formattedDate}</small> {/* ✅ Adicionando a data aqui */}
+        <Card.Title style={{ fontSize: "1.5rem", fontWeight: "bold", color: "#333" }}>
+          {article.title}
+        </Card.Title>
+        <small className="text-muted">
+          Publicado em: {articleDate.toLocaleDateString("pt-BR", {
+            day: "2-digit", month: "long", year: "numeric"
+          })}
+        </small>
         <Card.Text style={{ flexGrow: 1, marginTop: "10px" }}>
           {article.content.substring(0, 200)}...
         </Card.Text>

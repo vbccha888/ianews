@@ -15,11 +15,17 @@ const createArticle = async (req, res) => {
   res.status(201).json(article);
 };
 
-// Listar Artigos
+
+// Listar Artigos (agora ordenados do mais novo para o mais antigo)
 const getArticles = async (req, res) => {
-  const articles = await Article.find().populate('author', 'name');
-  res.json(articles);
+  try {
+    const articles = await Article.find().populate('author', 'name').sort({ createdAt: -1 }); // ✅ Ordenando
+    res.json(articles);
+  } catch (error) {
+    res.status(500).json({ message: "Erro ao buscar artigos", error: error.message });
+  }
 };
+
 
 // Atualizar Artigo
 const updateArticle = async (req, res) => {
