@@ -115,5 +115,22 @@ const registerUser = async (req, res) => {
       res.status(500).json({ message: "Erro ao atualizar perfil", error: error.message });
     }
   };
+
+  const deleteUser = async (req, res) => {
+    try {
+      const user = await User.findById(req.user._id);
+  
+      if (!user) {
+        return res.status(404).json({ message: "Usuário não encontrado" });
+      }
+  
+      await user.deleteOne(); // Remove o usuário do banco
+  
+      res.json({ message: "Conta excluída com sucesso!" });
+    } catch (error) {
+      res.status(500).json({ message: "Erro ao excluir conta", error: error.message });
+    }
+  };
+  
     
-    module.exports = { loginUser, registerUser, getUserProfile, updatePassword, updateProfile };
+    module.exports = { loginUser, registerUser, getUserProfile, updatePassword, updateProfile, deleteUser };

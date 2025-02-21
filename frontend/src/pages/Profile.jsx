@@ -29,7 +29,9 @@ const Profile = () => {
         setName(response.data.name);
         setEmail(response.data.email);
       })
-      .catch((error) => console.error(error));
+      .catch((error) => {
+        setError("Erro ao carregar perfil.");
+      });
   }, [navigate]);
 
   const handleProfileUpdate = async (e) => {
@@ -44,7 +46,7 @@ const Profile = () => {
         { headers: { Authorization: `Bearer ${localStorage.getItem("token")}` } }
       );
 
-      setMessage(response.data.message);
+      setMessage("Perfil atualizado com sucesso!");
       setUser({ ...user, name, email });
       setEditing(false);
     } catch (error) {
@@ -64,7 +66,7 @@ const Profile = () => {
         { headers: { Authorization: `Bearer ${localStorage.getItem("token")}` } }
       );
 
-      setMessage(response.data.message);
+      setMessage("Senha alterada com sucesso!");
       setCurrentPassword("");
       setNewPassword("");
     } catch (error) {
@@ -77,6 +79,25 @@ const Profile = () => {
       } else {
         setError("Erro ao conectar com o servidor.");
       }
+    }
+  };
+
+  const handleDeleteAccount = async () => {
+    if (!window.confirm("Tem certeza que deseja excluir sua conta? Esta ação não pode ser desfeita.")) {
+      return;
+    }
+
+    try {
+      await axios.delete(`${process.env.REACT_APP_API_URL}/auth/delete-account`, {
+        headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+      });
+
+      localStorage.removeItem("token");
+      localStorage.removeItem("isEditor");
+      alert("Conta excluída com sucesso!");
+      window.location.href = "/login";
+    } catch (error) {
+      alert("Erro ao excluir conta. Tente novamente.");
     }
   };
 
@@ -129,35 +150,45 @@ const Profile = () => {
       <hr />
 
       <h2>Alterar Senha</h2>
-      <form onSubmit={handlePasswordChange} className="d-flex flex-column align-items-center mt-4">
-        <div className="mb-3" style={{ width: "40%" }}>
-          <label className="form-label fw-bold">Senha Atual</label>
-          <input
-            type="password"
-            className="form-control p-2"
-            value={currentPassword}
-            onChange={(e) => setCurrentPassword(e.target.value)}
-            required
-          />
-        </div>
-        <div className="mb-3" style={{ width: "40%" }}>
-          <label className="form-label fw-bold">Nova Senha</label>
-          <input
-            type="password"
-            className="form-control p-2"
-            value={newPassword}
-            onChange={(e) => setNewPassword(e.target.value)}
-            required
-          />
-        </div>
-        <button type="submit" className="btn btn-primary mt-2 px-4 py-2">
-          Alterar Senha
-        </button>
-      </form>
+<form onSubmit={handlePasswordChange} className="mt-4" style={{ maxWidth: "400px" }}>
+  <div className="mb-3">
+    <label className="form-label fw-bold">Senha Atual</label>
+    <input
+      type="password"
+      className="form-control p-2"
+      value={currentPassword}
+      onChange={(e) => setCurrentPassword(e.target.value)}
+      required
+    />
+  </div>
+  <div className="mb-3">
+    <label className="form-label fw-bold">Nova Senha</label>
+    <input
+      type="password"
+      className="form-control p-2"
+      value={newPassword}
+      onChange={(e) => setNewPassword(e.target.value)}
+      required
+    />
+  </div>
+  <button type="submit" className="btn btn-primary px-4 py-2">
+    Alterar Senha
+  </button>
+</form>
+
+
+      <hr />
+
+      <h2 className="text-danger">Excluir Conta</h2>
+      <p className="text-muted">Se você excluir sua conta, todos os seus dados serão removidos permanentemente.</p>
+      <button className="btn btn-danger mt-2 px-4 py-2" onClick={handleDeleteAccount}>
+        Excluir Conta
+      </button>
     </div>
   );
 };
 
 export default Profile;
+
 
 
