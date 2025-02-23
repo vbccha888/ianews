@@ -72,8 +72,8 @@ const ArticleDetail = () => {
           {article.videos.map((video, index) => (
             <div key={index} className="my-3">
               <iframe
-                width="90%"
-                height="300"
+                width="80%"
+                height="700"
                 src={getYouTubeEmbedUrl(video)}
                 title={`Video ${index + 1}`}
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
