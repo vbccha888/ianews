@@ -59,7 +59,7 @@ Antes de começar, você precisa ter instalado:
 - **[Git](https://git-scm.com/)** (opcional, mas recomendado)
 
 ### 🔹 1. Clonar o Repositório
-git clone https://github.com/seuusuario/IAnews.git
+git clone https://github.com/seuusuário/ianews.git
 cd IAnews
 
 ###  2. Configurar o Backend
