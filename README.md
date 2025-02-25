@@ -109,3 +109,6 @@ Vitor de Brito Chagas - RM 355130
 
 Repositório
 https://github.com/vbccha888/ianews.git
+
+Vídeo: 
+https://youtu.be/TeJNrcIckyk?si=yYulomxIV41bOBb4
