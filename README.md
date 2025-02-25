@@ -1,54 +1,52 @@
-# 📰 IAnews - Plataforma de Notícias
+📰 Technews - Plataforma de Notícias
 
-IAnews é uma aplicação full-stack para gerenciamento e exibição de artigos de notícias. O projeto é desenvolvido utilizando **React (Frontend), Node.js com Express (Backend) e MongoDB (Banco de Dados)**.
+Technews é uma plataforma moderna para gestão e exibição de artigos de notícias. O projeto utiliza React.js para o frontend e Node.js com Express para o backend, com um banco de dados MongoDB.
 
----
+🚀 Tecnologias Utilizadas
 
-## 🚀 Tecnologias Utilizadas
+🔹 Frontend (React.js)
+React.js - Biblioteca para interfaces dinâmicas.
+React Router - Gerenciamento de rotas.
+Axios - Requisições HTTP.
+Bootstrap & React-Bootstrap - Estilização responsiva.
 
-### 📌 **Frontend (React)**
-- **React.js** - Biblioteca para criação de interfaces.
-- **React Router** - Gerenciamento de rotas no frontend.
-- **Axios** - Para requisições HTTP ao backend.
-- **Bootstrap** - Estilização rápida e responsiva.
-- **React-Bootstrap** - Componentes prontos do Bootstrap para React.
-
-### 📌 **Backend (Node.js + Express)**
-- **Express.js** - Framework minimalista para Node.js.
-- **MongoDB + Mongoose** - Banco de dados NoSQL para armazenar usuários e artigos.
-- **JWT (Json Web Token)** - Autenticação segura de usuários.
-- **Bcrypt.js** - Hashing de senhas para segurança.
-- **Cors** - Permitir comunicação entre frontend e backend.
-- **Dotenv** - Gerenciamento de variáveis de ambiente.
-- **Multer** - Upload e manipulação de arquivos.
-
+🔹 Backend (Node.js + Express.js)
+Express.js - Framework web.
+MongoDB + Mongoose - Banco de dados NoSQL.
+JWT (Json Web Token) - Autenticação segura.
+Bcrypt.js - Hashing de senhas.
+Cors - Permissão de comunicação entre domínios.
+Dotenv - Gerenciamento de variáveis de ambiente.
 ---
 
 ## 📂 Estrutura do Projeto
 
-```
-📦 meu-projeto
- ┣ 📂 frontend
- ┃ ┣ 📂 src
- ┃ ┃ ┣ 📂 components
- ┃ ┃ ┣ 📂 pages
- ┃ ┃ ┣ 📜 App.jsx
- ┃ ┃ ┣ 📜 index.jsx
- ┃ ┃ ┗ 📜 App.css
- ┃ ┣ 📜 package.json
- ┃ ┗ 📜 .env
- ┣ 📂 backend
- ┃ ┣ 📂 config
- ┃ ┃ ┗ 📜 db.js
- ┃ ┣ 📂 controllers
- ┃ ┣ 📂 middleware
- ┃ ┣ 📂 models
- ┃ ┣ 📂 routes
- ┃ ┣ 📜 server.js
- ┃ ┣ 📜 .env
- ┃ ┗ 📜 package.json
- ┗ 📜 README.md
-```
+IAnews/
+├── backend/
+│   ├── config/ (Conexão com o MongoDB)
+│   ├── controllers/ (Lógica de controle do backend)
+│   ├── middleware/ (Middlewares de autenticação e controle de acesso)
+│   ├── models/ (Modelos de dados para MongoDB)
+│   ├── routes/ (Definição das rotas da API)
+│   ├── server.js (Configuração principal do backend)
+│   ├── .env (Variáveis de ambiente do backend)
+│   ├── package.json (Dependências do backend)
+│   ├── utils (gerenciamento de tokes de acesso em JWT)
+│
+├── frontend/
+│   ├── src/
+│   │   ├── components/ (Componentes reutilizáveis como Navbar e Footer)
+│   │   ├── pages/ (Páginas principais como Home, Login, Dashboard)
+│   │   ├── services/ (Serviços auxiliares como autenticação e API requests)
+│   │   ├── App.jsx (Componente raiz da aplicação)
+│   │   ├── index.jsx (Ponto de entrada do React)
+│   │   ├── App.css (Estilização global da aplicação)
+│   ├── public/ (Arquivos públicos como index.html e manifest.json)
+│   ├── package.json (Dependências do frontend)
+│   ├── .env (Variáveis de ambiente do frontend)
+│
+├── .gitignore (Arquivos ignorados pelo Git)
+├── README.md
 
 ---
 
@@ -60,91 +58,42 @@ Antes de começar, você precisa ter instalado:
 - **[MongoDB](https://www.mongodb.com/)** (local ou via [MongoDB Atlas](https://www.mongodb.com/cloud/atlas))
 - **[Git](https://git-scm.com/)** (opcional, mas recomendado)
 
-### 🔹 **1. Clonar o Repositório**
-
-```bash
+### 🔹 1. Clonar o Repositório
 git clone https://github.com/seuusuario/IAnews.git
 cd IAnews
-```
 
-### 🔹 **2. Configurar o Backend**
-
-```bash
+###  2. Configurar o Backend
 cd backend
-npm install  # Instala todas as dependências
-```
+npm install  # Instalar dependências
 
-#### **Criar e configurar o arquivo `.env` no backend**
-Crie um arquivo `.env` dentro da pasta `backend` e adicione:
-
-```
+Criar um arquivo .env na pasta backend:
 PORT=5000
-DB_CONNECTION_STRING=mongodb+srv://seu_usuario:senha@cluster.mongodb.net/dbname
-JWT_SECRET=sua_chave_secreta
+DB_CONNECTION_STRING=mongodb+srv://usuario:senha@cluster.mongodb.net/IAnews
+JWT_SECRET=chave_super_secreta
 EDITOR_SECRET_CODE=codigoeditor
-```
 
-#### **Rodar o servidor backend**
+Executar o backend:
+npm run dev
 
-```bash
-npm start  # Ou npx nodemon server.js (para desenvolvimento)
-```
+O backend estará rodando em http://localhost:5000.
 
-O backend estará rodando em `http://localhost:5000`.
-
----
-
-### 🔹 **3. Configurar o Frontend**
-
-```bash
+### 3. Configurar o Frontend
 cd ../frontend
-npm install  # Instala as dependências do React
-```
+npm install  # Instalar dependências
 
-#### **Criar e configurar o arquivo `.env` no frontend**
-Crie um arquivo `.env` dentro da pasta `frontend` e adicione:
-
-```
+Criar um arquivo .env na pasta frontend:
 REACT_APP_API_URL=http://localhost:5000/api
-```
 
-#### **Rodar o frontend**
-
-```bash
+Executar o frontend:
 npm start
-```
 
-O frontend estará rodando em `http://localhost:3000`.
+##
+🚀 Funcionalidades Principais
 
----
-
-## 🚀 Funcionalidades do Sistema
-
-✅ Cadastro e Login de usuários com autenticação JWT.  
-✅ Dashboard para gerenciamento de artigos (somente para editores).  
-✅ Listagem de artigos na página inicial.  
-✅ Detalhamento de um artigo com imagens e vídeos.  
-✅ Criação, edição e remoção de artigos (somente para editores).  
-
----
-
-## 🎯 Melhorias Futuras
-- Implementação de um sistema de comentários.
-- Suporte a categorias e tags avançadas.
-- Upload de imagens e vídeos diretamente para um serviço de armazenamento (AWS S3, Cloudinary, etc.).
-
----
-
-## 📌 Contribuindo
-Contribuições são bem-vindas! Siga os passos abaixo:
-
-1. Faça um fork do repositório.
-2. Crie uma branch com sua funcionalidade (`git checkout -b minha-feature`).
-3. Commit suas mudanças (`git commit -m 'Adiciona nova funcionalidade'`).
-4. Faça um push para a branch (`git push origin minha-feature`).
-5. Abra um **Pull Request**.
-
----
+✅ Autenticação JWT - Login e registro de usuários.
+✅ Dashboard - Gerenciamento de artigos (somente para editores).
+✅ Exibição de Notícias - Listagem e visualização detalhada.
+✅ CRUD de Artigos - Criar, editar e excluir artigos.
 
 ## 📜 Licença
 Este projeto está sob a licença MIT. Sinta-se livre para usá-lo e modificá-lo. 😊
