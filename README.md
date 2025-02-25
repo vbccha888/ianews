@@ -60,6 +60,8 @@ Antes de começar, você precisa ter instalado:
 
 ### 🔹 1. Clonar o Repositório
 git clone https://github.com/vbccha888/ianews.git
+
+No terminal:
 cd IAnews
 
 ###  2. Configurar o Backend
@@ -98,3 +100,12 @@ npm start
 ## 📜 Licença
 Este projeto está sob a licença MIT. Sinta-se livre para usá-lo e modificá-lo. 😊
 
+Integrantes do Grupo: 1
+Arthur Rocha - RM 355764
+Camila Vargas da Silva - RM 355775 
+David Guelman - RM 354642
+Henrique Bezerra Calado Bernardo - RM 354153 
+Vitor de Brito Chagas - RM 355130
+
+Repositório
+https://github.com/vbccha888/ianews.git
